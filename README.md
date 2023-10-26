@@ -4,3 +4,4 @@ proyecto de AI
 *integrantes*
 - Marcelo Guerrero
 - Esteban Cabrera
+- José Laura
