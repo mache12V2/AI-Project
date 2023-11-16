@@ -10,6 +10,7 @@ import mediapipe as mp                #para las detecciones del rostro, torso y 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.callbacks import TensorBoard
+actions = np.array(['hello', 'thanks', 'iloveyou'])
 
 model = Sequential() # Se crean layers para entrenar los modelos 
 model.add(LSTM(64,return_sequences = True, activation='relu',input_shape = (30,1662)))
@@ -24,11 +25,7 @@ model.load_weights('action.h5')
 mp_holistic = mp.solutions.holistic #holistic model
 mp_drawing = mp.solutions.drawing_utils #utilidades de dibujo
 
-actions = np.array(['hello', 'thanks', 'iloveyou'])
-sequence = []
-sentence = []
-predictions = []
-threshold = 0.5
+
 
 
 def mediapipe_detection(image,model):
@@ -75,6 +72,10 @@ app = Flask(__name__)
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
 def generate():
+    sequence = []
+    sentence = []
+    predictions = []
+    threshold = 0.5
     with mp_holistic.Holistic(min_detection_confidence = 0.5, min_tracking_confidence = 0.5) as holistic:
         while True:
             ret, frame = cap.read()
