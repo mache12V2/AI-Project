@@ -7,6 +7,20 @@ import os                             #Importación de funciones con los comando
 from matplotlib import pyplot as plt  #Grafica las imagenes capturadas de OpenCV
 import time                           #Para usar la función sleep para tener el tiempo de detectar los gestos
 import mediapipe as mp                #para las detecciones del rostro, torso y mano
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.callbacks import TensorBoard
+
+model = Sequential() # Se crean layers para entrenar los modelos 
+model.add(LSTM(64,return_sequences = True, activation='relu',input_shape = (30,1662)))
+model.add(LSTM(128,return_sequences = True, activation='relu'))
+model.add(LSTM(64,return_sequences = False, activation='relu'))
+model.add(Dense(64, activation='relu'))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(actions.shape[0],activation = 'softmax')) #softmas te da un conjunto de probabilidades que sumadas te suman 1 
+
+model.load_weights('action.h5')
+
 mp_holistic = mp.solutions.holistic #holistic model
 mp_drawing = mp.solutions.drawing_utils #utilidades de dibujo
 
