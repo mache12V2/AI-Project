@@ -82,9 +82,9 @@ def generate():
             if ret:
                 #hace la deteccion
                 image, results = mediapipe_detection(frame,holistic)
-                
+
                 #dibuja  los landmarks
-                draw_styled_landmarks(image,results)
+                #draw_styled_landmarks(image,results)
                 #1. Obtiene los keypoints de los landmarks
                 keypoints = extract_keypoints(results)
                 sequence.append(keypoints)
