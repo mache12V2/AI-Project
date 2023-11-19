@@ -82,10 +82,10 @@ def generate():
             if ret:
                 #hace la deteccion
                 image, results = mediapipe_detection(frame,holistic)
-                #print(results)
+                
                 #dibuja  los landmarks
                 draw_styled_landmarks(image,results)
-                # 2. Prediction logic
+                #1. Obtiene los keypoints de los landmarks
                 keypoints = extract_keypoints(results)
                 sequence.append(keypoints)
                 sequence = sequence[-30:]
@@ -94,7 +94,8 @@ def generate():
                     res = model.predict(np.expand_dims(sequence, axis=0))[0]
                     print(actions[np.argmax(res)])
                     predictions.append(np.argmax(res))
-                # 3. Viz logic
+
+                    # 2. Visualización
                     if np.unique(predictions[-10:])[0] == np.argmax(res):
                         if res[np.argmax(res)] > threshold:
 
@@ -105,7 +106,7 @@ def generate():
                                 sentence.append(actions[np.argmax(res)])
                     if len(sentence) > 5:
                         sentence = sentence[-5:]
-                    # Viz probabilities
+                    # Muestra las probabilidades
                     image = prob_viz(res, actions, image, colors)
 
                 cv2.rectangle(image, (0, 0), (640, 40), (245, 117, 16), -1)
